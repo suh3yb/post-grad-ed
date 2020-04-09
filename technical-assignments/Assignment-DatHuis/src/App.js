@@ -1,13 +1,16 @@
-import React from "react";
+import React from 'react';
+
+import ContactSelection from './components/ContactSelection';
 
 const App = () => {
   return (
     <>
-      <div>Import your component here!</div>
-      <div>
-        Have a look at the readme.md file for what is expected. And as always:
-        questions are welcome!
-      </div>
+      <ContactSelection />
+      <ContactSelection />
+      <ContactSelection />
+      <ContactSelection />
+      <ContactSelection />
+      <ContactSelection />
     </>
   );
 };

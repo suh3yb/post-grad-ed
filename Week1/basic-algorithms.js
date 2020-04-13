@@ -47,9 +47,11 @@ factorialize(5);
 //    Your response should be a number.
 
 const findLongestWordLength = str =>
-  str.split(' ').sort((a, b) => (a.length > b.length ? -1 : 1))[0].length;
+  str.split(' ').sort((a, b) => b.length - a.length)[0].length;
 
-findLongestWordLength('The quick brown fox jumped over the lazy dog');
+console.log(
+  findLongestWordLength('The quick brown fox jumped over the lazy dog')
+);
 
 //  5 Basic Algorithm Scripting: Return Largest Numbers in Arrays
 //    Return an array consisting of the largest number from each provided
@@ -59,11 +61,13 @@ findLongestWordLength('The quick brown fox jumped over the lazy dog');
 //    and access each member with array syntax arr[i].
 
 function largestOfFour(arr) {
-  const newArray = [];
-  for (let i = 0; i < arr.length; i++) {
-    newArray.push(arr[i].sort((a, b) => (a < b ? 1 : -1))[0]);
-  }
-  return newArray;
+  // const newArray = [];
+  // for (let i = 0; i < arr.length; i++) {
+  //   newArray.push(arr[i].sort((a, b) => (a < b ? 1 : -1))[0]);
+  // }
+  // return newArray;
+
+  return arr.map(subArr => subArr.sort((a, b) => b - a)[0]);
 }
 
 largestOfFour([
@@ -93,14 +97,16 @@ confirmEnding('Bastian', 'n');
 //    (second argument). Return an empty string if num is not a positive number.
 
 function repeatStringNumTimes(str, num) {
-  let newStr = '';
-  for (let i = num; i > 0; i--) {
-    newStr += str;
-  }
-  return newStr;
+  // let newStr = '';
+  // for (let i = num; i > 0; i--) {
+  //   newStr += str;
+  // }
+  // return newStr;
+  if (num < 0) return '';
+  return str.repeat(num);
 }
 
-repeatStringNumTimes('abc', 3);
+console.log(repeatStringNumTimes('abc', -3));
 
 //  8 Basic Algorithm Scripting: Truncate a String
 //    Truncate a string (first argument) if it is longer
@@ -108,10 +114,11 @@ repeatStringNumTimes('abc', 3);
 //    Return the truncated string with a ... ending.
 
 function truncateString(str, num) {
-  return str.slice(0, num) + (str.length > num ? '...' : '');
+  // return str.slice(0, num) + (str.length > num ? '...' : '');
+  return str.substring(0, num) + (str.length > num ? '...' : '');
 }
 
-truncateString('A-tisket a-tasket A green and yellow basket', 8);
+console.log(truncateString('A-tisket a-tasket A green and yellow basket', 8));
 
 //  9 Basic Algorithm Scripting: Finders Keepers
 //    Create a function that looks through an array
@@ -120,10 +127,11 @@ truncateString('A-tisket a-tasket A green and yellow basket', 8);
 //    If no element passes the test, return undefined.
 
 function findElement(arr, func) {
-  return arr.filter(elem => func(elem))[0];
+  // return arr.filter(elem => func(elem))[0];
+  return arr.find(elem => func(elem));
 }
 
-findElement([1, 2, 3, 4], num => num % 2 === 0);
+console.log(findElement([1, 2, 3, 4], num => num % 2 === 0));
 
 // 10 Basic Algorithm Scripting: Boo who
 //    Check if a value is classified as a boolean
@@ -145,17 +153,23 @@ booWho(null);
 //    capitalize connecting words like "the" and "of".
 
 function titleCase(str) {
-  const wordsArr = [];
-  str
+  // const wordsArr = [];
+  // str
+  //   .toLowerCase()
+  //   .split(' ')
+  //   .map(elem => {
+  //     wordsArr.push(elem[0].toUpperCase() + elem.slice(1));
+  //   });
+  // return wordsArr.join(' ');
+
+  return str
     .toLowerCase()
     .split(' ')
-    .map(elem => {
-      wordsArr.push(elem[0].toUpperCase() + elem.slice(1));
-    });
-  return wordsArr.join(' ');
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
-titleCase("I'm a little tea pot");
+console.log(titleCase("I'm a little tea pot"));
 
 // 12 Basic Algorithm Scripting: Slice and Splice
 //    You are given two arrays and an index.
@@ -199,11 +213,15 @@ bouncer([7, 'ate', '', false, 9]);
 //    [3,5,20] and 19 is less than 20 (index 2) and greater than 5 (index 1).
 
 function getIndexToIns(arr, num) {
-  arr.push(num);
-  return arr.sort((a, b) => (a < b ? -1 : 1)).indexOf(num);
+  // arr.push(num);
+  // return arr.sort((a, b) => (a < b ? -1 : 1)).indexOf(num);
+
+  // return [...arr, num].sort((a, b) => a - b).indexOf(num);
+
+  return [...arr].sort((a, b) => a - b).findIndex(number => number > num);
 }
 
-getIndexToIns([40, 60], 50);
+console.log(getIndexToIns([40, 60, 70, 10], 50));
 
 // 15 Basic Algorithm Scripting: Mutations
 //    Return true if the string in the first element of
@@ -221,17 +239,26 @@ getIndexToIns([40, 60], 50);
 //    all of the letters in "line" are present in "Alien".
 
 function mutation(arr) {
-  const firstWord = arr[0].toLowerCase();
-  const secondWord = arr[1].toLowerCase();
-  for (let i = 0; i < secondWord.length; i++) {
-    if (!firstWord.includes(secondWord[i])) {
-      return false;
-    }
+  // const firstWord = arr[0].toLowerCase();
+  // const secondWord = arr[1].toLowerCase();
+  // for (let i = 0; i < secondWord.length; i++) {
+  //   if (!firstWord.includes(secondWord[i])) {
+  //     return false;
+  //   }
+  // }
+  // return true;
+
+  const letterSetToCheck = new Set();
+  arr[1]
+    .split('')
+    .forEach(letter => letterSetToCheck.add(letter.toLowerCase()));
+  for (let letter of letterSetToCheck) {
+    if (!arr[0].includes(letter)) return false;
   }
   return true;
 }
 
-mutation(['hello', 'hey']);
+console.log('mutation', mutation(['hello', 'heeeeeal']));
 
 // 16 Basic Algorithm Scripting: Chunky MonkeyPassed
 //    Write a function that splits an array (first argument)

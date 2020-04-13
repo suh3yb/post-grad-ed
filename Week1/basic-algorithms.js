@@ -46,7 +46,7 @@ factorialize(5);
 //    Return the length of the longest word in the provided sentence.
 //    Your response should be a number.
 
-const findLongestWordLength = (str) =>
+const findLongestWordLength = str =>
   str.split(' ').sort((a, b) => (a.length > b.length ? -1 : 1))[0].length;
 
 findLongestWordLength('The quick brown fox jumped over the lazy dog');
@@ -120,10 +120,10 @@ truncateString('A-tisket a-tasket A green and yellow basket', 8);
 //    If no element passes the test, return undefined.
 
 function findElement(arr, func) {
-  return arr.filter((elem) => func(elem))[0];
+  return arr.filter(elem => func(elem))[0];
 }
 
-findElement([1, 2, 3, 4], (num) => num % 2 === 0);
+findElement([1, 2, 3, 4], num => num % 2 === 0);
 
 // 10 Basic Algorithm Scripting: Boo who
 //    Check if a value is classified as a boolean
@@ -149,7 +149,7 @@ function titleCase(str) {
   str
     .toLowerCase()
     .split(' ')
-    .map((elem) => {
+    .map(elem => {
       wordsArr.push(elem[0].toUpperCase() + elem.slice(1));
     });
   return wordsArr.join(' ');
@@ -182,7 +182,7 @@ frankenSplice([1, 2, 3], [4, 5, 6], 1);
 //    Falsy values in JavaScript are false, null, 0, "", undefined, and NaN.
 //    Hint: Try converting each value to a Boolean.
 
-const bouncer = (arr) => arr.filter((elem) => elem);
+const bouncer = arr => arr.filter(elem => elem);
 
 bouncer([7, 'ate', '', false, 9]);
 
@@ -247,3 +247,22 @@ function chunkArrayInGroups(arr, size) {
 }
 
 chunkArrayInGroups(['a', 'b', 'c', 'd'], 2);
+
+///////////////// FEEDBACK /////////////////
+
+// Q5. You can make use of `map` function here and avoid using a for loop and creating an extra temporary variable. Also, you need not do a ternary check for sort function in this case as you can simply return the value of the subtraction and let sort function determine the order. :)
+function largestOfFour(arr) {
+  return arr.map(subArr => subArr.sort((a, b) => b - a)[0]);
+}
+// Q7.Try to use this method instead and then you won't need a for loop - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/repeat
+// Q9.Try to use this method instead and then you won't need a filter operation and get 0th element - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+// Q11. You don't need an extra `wordsArr` variable here as you can use `map` to your advantage :)
+function titleCase(str) {
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+// Q14. I don't think you are required to push the number to be tested to the array. You only need to find the index where it should belong to. I think after sorting the array, you need to use the `findIndex` method to achieve this behaviour. Also, try to make use of spread operator before sorting as `sort` is a mutable method. We don't want to alter the arr argument, do we? ;)
+// Q15. A small comment on otherwise correct logic. I think it would be nice if we could remove duplicates from the second string(check how we can use Sets for that) before checking the logic inside a for loop. For example, if the second word is "hello", we don't want to test letter 'l' twice, right? :)
